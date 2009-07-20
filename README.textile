@@ -1,0 +1,73 @@
+h1. Mechanical CSS
+
+Mechanical CSS is an extension the CSS language which allows for a more modular and cleaner set of CSS files, MCSS currently runs through a PHP program which converts custom syntax enhancements into valid CSS. Currently the language allows for server-side imports, custom rule defining and variables.
+
+h3. Server-Side Imports
+
+Server side imports are done by writing the valid CSS expression: @\@import "file.mcss";@ if the file extension is MCSS (Mechanical CSS) then the include is done on the server, otherwise the import is left for the browser to handle. You can always just rename css files to .mcss if you want them included on the server.
+
+h3. Custom Defined Rules
+
+Custom defined rules are a way of creating clean re-usable code for within CSS, the idea has been around for a while including support in SAAS and LessCSS (in both libraries they are called mixins). The main difference that separates Mechanical CSS from SAAS and LessCSS is that rules in MCSS can have parameters just like usual CSS rules. An example of the syntax is below:
+
+<pre>
+<code>
+@rule border-radius: tl tp br bl {
+	border-radius: tl tp br bl;
+	-moz-border-radius: tl tp br bl;
+	-webkit-border-radius: tl tp br bl;
+}
+
+h3 {
+	background: blue;
+	border-radius: 5px 0 5px 0;
+}
+
+h5 {
+	background: blue;
+	border-radius: 10px;
+}
+</code>
+</pre>
+
+This _(re)_defines the rule border-radius which accepts 4 arguments, which can then be used just like any normal CSS rule. This particular rule makes using the CSS3 border radius compatible with the main browsers which use custom names keeping your main CSS clean. If you use the rule with less arguments then defined then remaining rules will be erased. The output from the example above becomes the output below:
+
+<pre>
+<code>
+h3 {
+	background: blue;
+	border-radius: 5px 0 5px 0;
+	-moz-border-radius: 5px 0 5px 0;
+	-webkit-border-radius: 5px 0 5px 0;
+}
+
+h5 {
+	background: blue;
+	border-radius: 10px;
+	-moz-border-radius: 10px;
+	-webkit-border-radius: 10px;
+}
+</code>
+</pre>
+
+h3. Variables
+
+Variables in MCSS follow the proposal Daniel Glazman and David Hyatt, variables are defined in @variable blocks, you can have as many variable blocks in a single page as you wish, when needed you can wrap the variable in a @var@ block:
+
+<pre>
+<code>
+@variables {
+	primaryColour: #333;
+	secondaryColour: #AAA;
+}
+
+body {
+	background: var(primaryColour);
+}
+</code>
+</pre>
+
+
+h3. Development
+
+Mechanical CSS is still in active development and this is designed to be just a preview of what is available currently.

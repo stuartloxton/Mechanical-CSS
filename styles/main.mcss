@@ -1,0 +1,14 @@
+@import 'compatibility.mcss';
+
+@variables {
+	primaryColour: #333333;
+	secondayColour: #FF00FF;
+}
+
+body {
+	color: var(primaryColour);
+}
+
+.curvy {
+	border-radius: 5px 0 5px 0;
+}

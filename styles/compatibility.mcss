@@ -1,0 +1,10 @@
+@rule width: w {
+	width: w;
+	_width: w;
+}
+
+@rule border-radius: tl tp br bl {
+	border-radius: tl tp br bl;
+	-moz-border-radius: tl tp br bl;
+	-webkit-border-radius: tl tp br bl;
+}
