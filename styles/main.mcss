@@ -1,4 +1,10 @@
+@flag "compress";
+
 @import 'compatibility.mcss';
+
+/*
+	This Comment is removed
+*/
 
 @variables {
 	primaryColour: #333333;

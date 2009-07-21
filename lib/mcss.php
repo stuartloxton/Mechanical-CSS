@@ -26,11 +26,11 @@ class MCSS
 			$this->replaceVariables();
 			$this->parseRules();
 			$this->replaceRules();
-		}
-		
-		if($cleanUp) {
-			$this->cleanUp();
-		}
+			if($cleanUp) {
+				$this->cleanUp();
+			}
+			$this->parseFlags();
+		}		
 	}
 	
 	function setPath($path) {
@@ -96,9 +96,44 @@ class MCSS
 		}
 	}
 	
+	function parseFlags() {
+		preg_match_all('/\@flag\s*"([^"]+)";\s*/', $this->body, $matches);
+		foreach($matches[0] as $index => $flag) {
+			$this->body = str_replace($flag, '', $this->body);
+			$method = 'FLAG_'.$matches[1][$index];
+			$this->$method();
+		}
+	}
+	
 	function cleanUp() {
 		$this->body = preg_replace('/\$[0-9]+/', '', $this->body);
 	}
+	
+	
+	
+	function FLAG_compress() {
+		// Replace multiple white space with one space
+		$this->body = preg_replace('/\s+/', ' ', $this->body);
+		
+		// Remove final semi-colon and space from each block
+		$this->body = preg_replace('/;?\s*}\s*/', '}', $this->body);
+		
+		// Remove first spaces around each block beginning
+		$this->body = preg_replace('/\s*{\s*/', '{', $this->body);
+		
+		// Remove spaces between key: value
+		$this->body = preg_replace('/\s*\:\s*/', ':', $this->body);
+		
+		// Remove spaces after semi-colons
+		$this->body = preg_replace('/;\s+/', ';', $this->body);
+		
+		// Remove comments
+		$this->body = preg_replace('/\/\*[^\*]*\*\//', '', $this->body);
+		
+		// Remove beggining whitespace
+		$this->body = preg_replace('/^\s+/', '', $this->body);
+	}
+	
 	
 }
 
