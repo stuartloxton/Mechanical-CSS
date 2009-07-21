@@ -4,7 +4,7 @@ Mechanical CSS is an extension the CSS language which allows for a more modular 
 
 h3. Server-Side Imports
 
-Server side imports are done by writing the valid CSS expression: @\@import "file.mcss";@ if the file extension is MCSS (Mechanical CSS) then the include is done on the server, otherwise the import is left for the browser to handle. You can always just rename css files to .mcss if you want them included on the server.
+Server side imports are done by writing the valid CSS expression: <code>@import "file.mcss";</code> if the file extension is MCSS (Mechanical CSS) then the include is done on the server, otherwise the import is left for the browser to handle. You can always just rename css files to .mcss if you want them included on the server.
 
 h3. Custom Defined Rules
 
@@ -52,7 +52,7 @@ h5 {
 
 h3. Variables
 
-Variables in MCSS follow the proposal Daniel Glazman and David Hyatt, variables are defined in \@variable blocks, you can have as many variable blocks in a single page as you wish, when needed you can wrap the variable in a @var@ block:
+Variables in MCSS follow the proposal Daniel Glazman and David Hyatt, variables are defined in <code>@variable</code> blocks, you can have as many variable blocks in a single page as you wish, when needed you can wrap the variable in a @var@ block:
 
 <pre>
 <code>
@@ -79,4 +79,4 @@ MCSS comes with the ability to set certain flags for MCSS to read, these can cha
 
 h3. Development
 
-Mechanical CSS is still in active development and this is designed to be just a preview of what is available currently.
+Mechanical CSS is still in active development and this is designed to be just a preview of what is currently available.

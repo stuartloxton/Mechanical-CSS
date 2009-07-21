@@ -1,14 +1,24 @@
 <?php
 
-/**
-* MCSS - Mutable CSS (Make your own CSS)
-*
-*
-*
-*
-* REGEX for finding imports used from Jon Gilkison's CSS Compiler
-*
-*/
+/*
+ *
+ * Mechanical CSS - CSS extensions for variables, mixins, imports and flags.
+ * Copyright (C) 2009 Stuart Loxton
+ * 
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ * 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ * 
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ *
+ */
 class MCSS
 {
 	
@@ -16,20 +26,19 @@ class MCSS
 	var $body = '';
 	var $variables = array();
 	var $rules = array();
+	var $flags = array();
 	
-	function MCSS($path = false, $cleanUp = true) {
+	function MCSS($path = false) {
 		if( $path ) {
-			$this->path = str_replace( basename($path), '', $path );
-			$this->body = file_get_contents( $path );
+			$this->setPath($path);
 			$this->parseImports();
+			$this->parseFlags();
 			$this->parseVariables();
 			$this->replaceVariables();
 			$this->parseRules();
 			$this->replaceRules();
-			if($cleanUp) {
-				$this->cleanUp();
-			}
-			$this->parseFlags();
+			$this->cleanUp();
+			$this->finalFlags();
 		}		
 	}
 	
@@ -100,8 +109,16 @@ class MCSS
 		preg_match_all('/\@flag\s*"([^"]+)";\s*/', $this->body, $matches);
 		foreach($matches[0] as $index => $flag) {
 			$this->body = str_replace($flag, '', $this->body);
-			$method = 'FLAG_'.$matches[1][$index];
-			$this->$method();
+			$this->flags[ $matches[1][$index] ] = true;
+		}
+	}
+	
+	function finalFlags() {
+		foreach($this->flags as $flag => $value) {
+			$method = 'FLAG_'.$flag;
+			if( method_exists($this, $method) ) {
+				$this->$method( $value );
+			}
 		}
 	}
 	
@@ -111,7 +128,7 @@ class MCSS
 	
 	
 	
-	function FLAG_compress() {
+	function FLAG_compress($ignore = true) {
 		// Replace multiple white space with one space
 		$this->body = preg_replace('/\s+/', ' ', $this->body);
 		
@@ -137,8 +154,21 @@ class MCSS
 	
 }
 
-header('Content-Type: text/css');
-$mcss = new MCSS('../styles/main.mcss');
-echo $mcss->body;
+if( isset($_GET) && isset($_GET['url']) ) {
+	header('Content-Type: text/css');
+	$mcss = new MCSS($_GET['url']);
+	echo $mcss->body;
+} else if( isset($argv) ) {
+	if( count($argv) > 1 ) {
+		array_shift($argv);
+		foreach($argv as $arg) {
+			unset($mcss);
+			$mcss = new MCSS($arg);
+			file_put_contents(str_replace('mcss', 'css', $arg), $mcss->body);
+		}
+	} else {
+		echo 'Nothing to do...'."\n";
+	}
+}
 
 ?>
