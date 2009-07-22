@@ -19,6 +19,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  *
  */
+
 class MCSS
 {
 	
@@ -48,10 +49,17 @@ class MCSS
 	}
 	
 	function parseImports() {
-		preg_match_all('/\@import\s*(?:url\()*\s*[\'"]([^.]+).mcss[\'"]\s*(?:\)*);\s*/is', $this->body, $matches);
+		preg_match_all('/\@import\s*(?:url\()*\s*[\'"]([^\'"]+)[\'"]\s*(?:\)*);\s*/is', $this->body, $matches);
 		foreach($matches[1] as $key => $file) {
+			if( strpos( $file, 'http://') !== false ) {
+				$path = $file;
+			} else if( strpos( $file, '/' ) !== false ) {
+				$path = '../..'.$file;
+			} else {
+				$path = $this->path.$file;
+			}
 			$mcss = new MCSS;
-			$mcss->setPath($this->path.$file.'.mcss');
+			$mcss->setPath($path);
 			$mcss->parseImports();
 			$mcss->parseVariables();
 			$mcss->parseRules();

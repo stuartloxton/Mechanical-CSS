@@ -1,5 +1,5 @@
-@rule width: w {
-	width: w;
+@rule min-width: w {
+	min-width: w;
 	_width: w;
 }
 
