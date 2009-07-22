@@ -32,8 +32,8 @@ class MCSS
 	function MCSS($path = false) {
 		if( $path ) {
 			$this->setPath($path);
-			$this->parseImports();
 			$this->parseFlags();
+			$this->parseImports();
 			$this->parseVariables();
 			$this->replaceVariables();
 			$this->parseRules();
@@ -49,7 +49,11 @@ class MCSS
 	}
 	
 	function parseImports() {
-		preg_match_all('/\@import\s*(?:url\()*\s*[\'"]([^\'"]+)[\'"]\s*(?:\)*);\s*/is', $this->body, $matches);
+		if( isset($this->flags['strictImport']) && $this->flags['strictImport'] == true ) {
+			preg_match_all('/\@import\s*(?:url\()*\s*[\'"]([^\.]+.mcss)[\'"]\s*(?:\)*);\s*/is', $this->body, $matches);
+		} else {
+			preg_match_all('/\@import\s*(?:url\()*\s*[\'"]([^\'"]+)[\'"]\s*(?:\)*);\s*/is', $this->body, $matches);
+		}
 		foreach($matches[1] as $key => $file) {
 			if( strpos( $file, 'http://') !== false ) {
 				$path = $file;
@@ -60,11 +64,13 @@ class MCSS
 			}
 			$mcss = new MCSS;
 			$mcss->setPath($path);
+			$mcss->parseFlags();
 			$mcss->parseImports();
 			$mcss->parseVariables();
 			$mcss->parseRules();
-			$this->variables = $mcss->variables;
-			$this->rules = $mcss->rules;
+			$this->flags = array_merge($this->flags, $mcss->flags);
+			$this->variables = array_merge($this->variables, $mcss->variables);
+			$this->rules = array_merge($this->rules, $mcss->rules);
 			$this->body = str_replace( $matches[0][$key], $mcss->body, $this->body );
 		}
 	}

@@ -1,6 +1,8 @@
 @flag "compress";
+@flag "strictImport";
 
 @import 'compatibility.mcss';
+@import 'test.css';
 
 /*
 	This Comment is removed
