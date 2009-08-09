@@ -107,23 +107,41 @@ class MCSS
 	
 	function replaceRules() {
 		foreach( $this->rules as $name => $rule ) {
-			preg_match_all('/'.str_replace('-', '\-', $name).'\s*:\s*([^;]+);\s*/', $this->body, $matches);
+			preg_match_all('/'.str_replace('-', '\-', $name).'\s*:\s*([^;]+);/', $this->body, $matches);
 			foreach($matches[0] as $key => $string) {
 				$params = explode(' ', trim($matches[1][$key]));
 				$replaces = array();
 				foreach($params as $index => $param) {
 					$replaces[ '$'.$index ] = $param;
 				}
-				$this->body = str_replace($string, str_replace( array_keys($replaces), array_values($replaces), $rule ), $this->body);
+				if( !$this->isDevelopment() ) {
+					$this->body = str_replace($string, str_replace( array_keys($replaces), array_values($replaces), $rule ), $this->body);
+				} else {
+					$replace = '/* '.$string.' */';
+					$replace .= str_replace(array("\n", "\t", "\r"), '', str_replace( array_keys($replaces), array_values($replaces), $rule ));
+					$this->body = str_replace($string, $replace, $this->body);
+				}
 			}
 		}
 	}
 	
 	function parseFlags() {
-		preg_match_all('/\@flag\s*"([^"]+)";\s*/', $this->body, $matches);
+		preg_match_all('/\@flag\s*"([^"]+)"\s*(.*);/', $this->body, $matches);
 		foreach($matches[0] as $index => $flag) {
 			$this->body = str_replace($flag, '', $this->body);
-			$this->flags[ $matches[1][$index] ] = true;
+			if( $matches[2][$index] === '' ) {
+				$this->flags[ $matches[1][$index] ] = true;
+			} else {
+				$args = explode(' ', $matches[2][$index]);
+				foreach($args as $key => $arg) {
+					if( strpos($arg, '"') === 0 ) {
+						$args[$key] = str_replace('"', '', $arg);
+					} else if( is_numeric( $arg ) ) {
+						$args[$key] = (float) $arg;
+					}
+				}
+				$this->flags[ $matches[1][$index] ] = $args;
+			}
 		}
 	}
 	
@@ -142,29 +160,34 @@ class MCSS
 	
 	
 	
-	function FLAG_compress($ignore = true) {
-		// Replace multiple white space with one space
-		$this->body = preg_replace('/\s+/', ' ', $this->body);
-		
-		// Remove final semi-colon and space from each block
-		$this->body = preg_replace('/;?\s*}\s*/', '}', $this->body);
-		
-		// Remove first spaces around each block beginning
-		$this->body = preg_replace('/\s*{\s*/', '{', $this->body);
-		
-		// Remove spaces between key: value
-		$this->body = preg_replace('/\s*\:\s*/', ':', $this->body);
-		
-		// Remove spaces after semi-colons
-		$this->body = preg_replace('/;\s+/', ';', $this->body);
-		
-		// Remove comments
-		$this->body = preg_replace('/\/\*[^\*]*\*\//', '', $this->body);
-		
-		// Remove beggining whitespace
-		$this->body = preg_replace('/^\s+/', '', $this->body);
+	function FLAG_compress($args = true) {
+		if( $args === true || $args[0] == 'compress' ) {
+			// Replace multiple white space with one space
+			$this->body = preg_replace('/\s+/', ' ', $this->body);
+			
+			// Remove final semi-colon and space from each block
+			$this->body = preg_replace('/;?\s*}\s*/', '}', $this->body);
+			
+			// Remove first spaces around each block beginning
+			$this->body = preg_replace('/\s*{\s*/', '{', $this->body);
+			
+			// Remove spaces between key: value
+			$this->body = preg_replace('/\s*\:\s*/', ':', $this->body);
+			
+			// Remove spaces after semi-colons
+			$this->body = preg_replace('/;\s+/', ';', $this->body);
+			
+			// Remove comments
+			$this->body = preg_replace('/\/\*[^\*]*\*\//', '', $this->body);
+			
+			// Remove beggining whitespace
+			$this->body = preg_replace('/^\s+/', '', $this->body);
+		}
 	}
 	
+	private function isDevelopment() {
+		return ($this->flags['compress'] !== true && $this->flags['compress'][0] === 'development');
+	}
 	
 }
 

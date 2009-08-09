@@ -1,4 +1,4 @@
-@flag "compress";
+@flag "compress" "development";
 @flag "strictImport";
 
 @import 'compatibility.mcss';
