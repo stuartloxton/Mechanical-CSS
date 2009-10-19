@@ -73,7 +73,9 @@ MCSS comes with the ability to set certain flags for MCSS to read, these can cha
 
 <pre>
 <code>
-@flag "compress";
+@flags {
+	compress: true;
+}
 </code>
 </pre>
 
