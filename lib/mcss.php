@@ -32,9 +32,9 @@ class MCSS
 	function MCSS($path = false) {
 		if( $path ) {
 			$this->setPath($path);
+			$this->parseVariables();
 			$this->parseFlags();
 			$this->parseImports();
-			$this->parseVariables();
 			$this->replaceVariables();
 			$this->parseRules();
 			$this->replaceRules();
@@ -49,11 +49,7 @@ class MCSS
 	}
 	
 	function parseImports() {
-		if( isset($this->flags['strictImport']) && $this->flags['strictImport'] == true ) {
-			preg_match_all('/\@import\s*(?:url\()*\s*[\'"]([^\.]+.mcss)[\'"]\s*(?:\)*);\s*/is', $this->body, $matches);
-		} else {
-			preg_match_all('/\@import\s*(?:url\()*\s*[\'"]([^\'"]+)[\'"]\s*(?:\)*);\s*/is', $this->body, $matches);
-		}
+		preg_match_all('/\@include\s*(?:url\()*\s*[\'"]([^\'"]+)[\'"]\s*(?:\)*);\s*/is', $this->body, $matches);
 		foreach($matches[1] as $key => $file) {
 			if( strpos( $file, 'http://') !== false ) {
 				$path = $file;
@@ -64,9 +60,9 @@ class MCSS
 			}
 			$mcss = new MCSS;
 			$mcss->setPath($path);
+			$mcss->parseVariables();
 			$mcss->parseFlags();
 			$mcss->parseImports();
-			$mcss->parseVariables();
 			$mcss->parseRules();
 			$this->flags = array_merge($this->flags, $mcss->flags);
 			$this->variables = array_merge($this->variables, $mcss->variables);
@@ -125,23 +121,14 @@ class MCSS
 		}
 	}
 	
-	function parseFlags() {
-		preg_match_all('/\@flag\s*"([^"]+)"\s*(.*);/', $this->body, $matches);
-		foreach($matches[0] as $index => $flag) {
-			$this->body = str_replace($flag, '', $this->body);
-			if( $matches[2][$index] === '' ) {
-				$this->flags[ $matches[1][$index] ] = true;
-			} else {
-				$args = explode(' ', $matches[2][$index]);
-				foreach($args as $key => $arg) {
-					if( strpos($arg, '"') === 0 ) {
-						$args[$key] = str_replace('"', '', $arg);
-					} else if( is_numeric( $arg ) ) {
-						$args[$key] = (float) $arg;
-					}
-				}
-				$this->flags[ $matches[1][$index] ] = $args;
+	function parseFlags() {		
+		preg_match_all('/\@flags\s*{\s*([^}]*)}\s*/i', $this->body, $matches);
+		foreach( $matches[1] as $key => $match ) {
+			preg_match_all('/([^:]+):\s*([^;]+);\s*/', $match, $rules);
+			foreach( $rules[1] as $key2 => $rule ) {
+				$this->flags[ $rule ] = $rules[2][$key2];
 			}
+			$this->body = str_replace( $matches[0][$key], '', $this->body );
 		}
 	}
 	
@@ -160,8 +147,8 @@ class MCSS
 	
 	
 	
-	function FLAG_compress($args = true) {
-		if( $args === true || $args[0] == 'compress' ) {
+	function FLAG_compress($args = true) {		
+		if( $args == true || $args[0] == 'compress' ) {
 			// Replace multiple white space with one space
 			$this->body = preg_replace('/\s+/', ' ', $this->body);
 			
@@ -206,6 +193,8 @@ if( isset($_GET) && isset($_GET['url']) ) {
 	} else {
 		echo 'Nothing to do...'."\n";
 	}
+} else {
+	echo 'Nothing to do...'."\n";
 }
 
 ?>

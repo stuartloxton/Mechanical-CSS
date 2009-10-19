@@ -1,8 +1,9 @@
-@flag "compress" "development";
-@flag "strictImport";
+@flags {
+	compress: true;
+}
 
-@import 'compatibility.mcss';
-@import 'test.css';
+@include "compatibility.mcss";
+@include "test.css";
 
 /*
 	This Comment is removed
