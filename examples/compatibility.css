@@ -1,0 +1,5 @@
+@rule border-radius: tl tr br bl {
+	border-radius: var(tl) var(tr) var(br) var(bl);
+	-webkit-border-radius: var(tl) var(tr) var(br) var(bl);
+	-moz-border-radius: var(tl) var(tr) var(br) var(bl);
+}
