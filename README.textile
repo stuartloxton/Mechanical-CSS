@@ -1,10 +1,10 @@
 h1. Mechanical CSS
 
-Mechanical CSS is an extension the CSS language which allows for a more modular and cleaner set of CSS files, MCSS currently runs through a PHP program which converts custom syntax enhancements into valid CSS. Currently the language allows for server-side imports, custom rule defining, variables and automatic compression via flags.
+Mechanical CSS is an extension to the CSS syntax which allows for a more modular and hack free system, MCSS currently runs through a PHP program which converts custom syntax enhancements into valid CSS. Currently the language allows for server-side imports, custom rule defining, variables and automatic compression via flags.
 
 h3. Server-Side Imports
 
-Server side imports are done by writing the valid CSS expression: <code>@import "file.mcss";</code> if the file extension is MCSS (Mechanical CSS) then the include is done on the server, otherwise the import is left for the browser to handle. You can always just rename css files to .mcss if you want them included on the server.
+Server side imports are done by using: <code>@include "file.mcss";</code> this is very similar to CSS' <code>@import "file.css";</code> however it is a) included on the server before going to the browser for performance but b) allows for you to stick custom rules in a separate file as it is also passed through MCSS.
 
 h3. Custom Defined Rules
 
@@ -13,9 +13,9 @@ Custom defined rules are a way of creating clean re-usable code for within CSS, 
 <pre>
 <code>
 @rule border-radius: tl tp br bl {
-	border-radius: tl tp br bl;
-	-moz-border-radius: tl tp br bl;
-	-webkit-border-radius: tl tp br bl;
+	border-radius: var(tl) var(tp) var(br) var(bl);
+	-moz-border-radius: var(tl) var(tp) var(br) var(bl);
+	-webkit-border-radius: var(tl) var(tp) var(br) var(bl);
 }
 
 h3 {

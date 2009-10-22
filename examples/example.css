@@ -1,1 +1,20 @@
 @include 'compatibility.css';
+@include 'compatibility.css';
+
+@flags {
+	compress: true;
+}
+
+@variables {
+	background: #000;
+	foreground: #FFF;
+}
+
+body {
+	background: var(background);
+	foreground: var(foreground);
+}
+
+.curvy {
+	border-radius: 5px;
+}

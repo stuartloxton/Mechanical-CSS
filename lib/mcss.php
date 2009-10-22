@@ -7,19 +7,26 @@ class MCSS {
 	var $rules = array();
 	var $flags = array();
 	
-	function MCSS($file, $path=false) {
+	var $included = array();
+	
+	function MCSS($file, $path=false, $autorun=true) {
 		
 		$filepath = $path.'/'.$file;
 		$this->css = file_get_contents($filepath);
 		$this->path = $path;
 		
-		$this->parseRules();
-		$this->replaceRules();
-		
-		$this->parseVariables();
-		$this->css = $this->replaceVariables($this->css, $this->variables);
-		
-		$this->parseFlags();
+		if($autorun) {
+			$this->parseIncludes();
+			
+			$this->parseRules();
+			$this->replaceRules();
+			
+			$this->parseVariables();
+			$this->css = $this->replaceVariables($this->css, $this->variables);
+			
+			$this->parseFlags();
+			$this->runFlags();
+		}
 	}
 	
 	/*************
@@ -86,6 +93,62 @@ class MCSS {
 		}
 	}
 	
+	function runFlags() {
+		foreach($this->flags as $flag => $value) {
+			if(method_exists($this, $flag)) {
+				$this->$flag($value);
+			}
+		}
+	}
+	
+	function compress($value) {
+		if( $value == 'true' ) {
+			// Replace multiple white space with one space
+			$this->css = preg_replace('/\s+/', ' ', $this->css);
+
+			// Remove first spaces around each block beginning
+			$this->css = preg_replace('/\s*{\s*/', '{', $this->css);
+
+			// Remove spaces between key: value
+			$this->css = preg_replace('/\s*\:\s*/', ':', $this->css);
+
+			// Remove spaces after and before semi-colons
+			$this->css = preg_replace('/\s*;\s*/', ';', $this->css);
+
+			// Remove comments
+			$this->css = preg_replace('/\/\*[^\*]*\*\//', '', $this->css);
+
+			// Remove beggining whitespace
+			$this->css = preg_replace('/^\s+/', '', $this->css);
+
+			// Remove final semi-colon and space from each block
+			$this->css = preg_replace('/;?\s*}\s*/', '}', $this->css);
+		}
+	}
+	
+	/*************
+		Include Functions
+	*************/
+	function parseIncludes() {
+		$rules = $this->_parseDirectives($this->css, '@include');
+		foreach($rules as $include) {
+			preg_match('/^[\'"]([^\'"]+)/', $include, $matches);
+			
+			$path = $this->path.'/'.dirname($matches[1]);
+			$file = basename($matches[1]);
+			
+			if(!in_array($path.'/'.$file, $this->included)) {
+				$subcss = new MCSS($file, $path, false);
+				$subcss->parseIncludes();
+				$this->css = preg_replace('~'.'@include '.$include.';'.'~', $subcss->css, $this->css, 1);
+				$this->included[] = $path.'/'.$file;
+			} else {
+				$this->css = str_replace('@include '.$include.';', '',  $this->css);
+			}
+		}
+	}
+	
+	
 	/*************
 		Internal Functions
 	*************/
@@ -111,15 +174,20 @@ class MCSS {
 		return $blocks;
 	}
 	
-	function _parseDirective($type, $body) {
-		echo $body;
-	}
-	
 	function _parseRules($body) {
 		preg_match_all('/([^:]+):\s*([^;]+);\s*/', $body, $rules);
 		$return = array();
 		foreach($rules[1] as $i => $key) {
 			$return[$key] = $rules[2][$i];
+		}
+		return $return;
+	}
+	
+	function _parseDirectives($body, $directive) {
+		preg_match_all('/('.$directive.')\s*([^;]+);\s*/', $body, $rules);
+		$return = array();
+		foreach($rules[1] as $i => $key) {
+			$return[] = $rules[2][$i];
 		}
 		return $return;
 	}
