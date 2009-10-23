@@ -1,5 +1,4 @@
 @include 'compatibility.css';
-@include 'compatibility.css';
 
 @flags {
 	compress: true;

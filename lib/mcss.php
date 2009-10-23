@@ -6,12 +6,18 @@ class MCSS {
 	var $variables = array();
 	var $rules = array();
 	var $flags = array();
-	
+		
 	var $included = array();
 	
 	function MCSS($file, $path=false, $autorun=true) {
+			
+		if(!$path) {
+			$path = dirname($file);
+			$file = basename($file);
+		}
 		
-		$filepath = $path.'/'.$file;
+		$filepath = $path ? $path.'/'.$file : $file;
+		
 		$this->css = file_get_contents($filepath);
 		$this->path = $path;
 		
@@ -133,21 +139,29 @@ class MCSS {
 		$rules = $this->_parseDirectives($this->css, '@include');
 		foreach($rules as $include) {
 			preg_match('/^[\'"]([^\'"]+)/', $include, $matches);
-			
-			$path = $this->path.'/'.dirname($matches[1]);
-			$file = basename($matches[1]);
-			
-			if(!in_array($path.'/'.$file, $this->included)) {
-				$subcss = new MCSS($file, $path, false);
-				$subcss->parseIncludes();
-				$this->css = preg_replace('~'.'@include '.$include.';'.'~', $subcss->css, $this->css, 1);
-				$this->included[] = $path.'/'.$file;
+					
+			if( strpos($matches[1], '://') !== false ) {
+				if( !in_array($matches[1], $this->included) ) {
+					$subcss = new MCSS($matches[1], false, false);
+					$subcss->parseIncludes();
+					$this->included[] = $matches[1];
+				}
 			} else {
-				$this->css = str_replace('@include '.$include.';', '',  $this->css);
+				$path = $this->path.'/'.dirname($matches[1]);
+				$file = basename($matches[1]);
+				if(!in_array($path.'/'.$file, $this->included)) {
+					$subcss = new MCSS($file, $path, false);
+					$subcss->parseIncludes();
+					$this->included[] = $path.'/'.$file;
+				}
 			}
+			if( isset($subcss) ) {
+				$this->css = substr_replace($this->css, $subcss->css, strpos($this->css, '@include '.$include.';'), strlen('@include '.$include.';'));
+			}
+			$this->css = str_replace('@include '.$include.';', '',  $this->css);
+			unset($subcss);
 		}
 	}
-	
 	
 	/*************
 		Internal Functions
