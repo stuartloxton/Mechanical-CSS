@@ -1,19 +1,1206 @@
-@include 'compatibility.css';
-
 @flags {
 	compress: true;
 }
+/* _____________________________________________________________________________________________
 
-@variables {
-	background: #000;
-	foreground: #FFF;
+   Cascading Stylesheet for: CSSdrive.com
+   Author: Maleika Esther Attawel
+   Author URL: http://rockatee.com
+   Updated: 06-31-2009
+   Version: 1.0
+   __________________________________________________________________________________________*/
+
+/* Reset Default Rules */
+
+html, body, div, span, blockquote, pre, a, abbr, 
+acronym, cite, code, em, img, dl, dt, dd, form, label, 
+legend, table, caption, tbody, thead, tr, th, td {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	vertical-align: baseline;
+	background: transparent;
+}
+
+
+::-moz-selection{
+	background:navy;
+	color:#fff;
+}
+
+a {
+	text-decoration:none;
+}
+
+a:link {
+	color: #062c4e;
+}
+
+a:visited {
+	color:#041f36;
+}
+
+a:hover, a:focus {
+	color:#000;
+}
+
+del {
+	text-decoration: line-through;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* Clear Floats */
+
+
+div#main-content:after,
+div#supp-section:after,
+div#supp-section h2:after {
+	content: ".";
+	display: block;
+	clear: both;
+	height: 0;
+	font-size: 0;
+	line-height: 0em;
+	visibility: hidden;
+	overflow: hidden;
+}
+
+/* Global Rules */
+
+html {
+	background:#89965b;
+	padding:10px 0;
 }
 
 body {
-	background: var(background);
-	foreground: var(foreground);
+	background:#2a2a2a url(../imagesdir/body.png) repeat-y left;
+	height:100%;
+	font: normal 90% "Lucida Grande", "Trebuchet MS", Verdana, Helvetica, sans-serif;
+	color:#2a2a2a;
+	position:relative;
+	z-index:1;
 }
 
-.curvy {
-	border-radius: 5px;
+div#home-button {
+	position:absolute;
+	top:-11px;
+	left:0;
+	width:116px;
+	height:113px;
+	z-index:2;
+}
+
+div#home-button a {
+	background:url(../imagesdir/home_button.png) no-repeat;
+	display:block;
+	text-indent:-999em;
+	width:116px;
+	height:113px;
+}
+
+
+/* _____________________________________________________________________________________________
+
+   Typography
+   __________________________________________________________________________________________ */
+
+h2.summary-heading {
+	text-transform:uppercase;
+	font-weight:normal;
+	font-size:150%;
+	line-height:1.2;
+	border-bottom:1px solid #888;
+	width:100%;
+	margin:10px 0;
+	padding-bottom:4px;
+	float:left;
+}
+
+h2.summary-heading img {
+	width:82px;
+	height:56px;
+	margin-right:10px;
+	display:block;
+	float:left;
+}
+
+h2.summary-heading span {
+	border-top:1px solid #ddd;
+	width:78%;
+	height:48px;
+	padding:6px 0 0 8px;
+	margin-top:2px;
+	display:block;
+	float:left;
+}
+
+h2.summary-heading strong {
+	color:#6e7849;
+	font-weight:normal;
+}
+
+.sub-column h2.summary-heading {
+	margin-top:0;
+}
+
+.sub-column h2.summary-heading span, div#sub-content.sub h2.summary-heading span {
+	width:54%;
+}
+
+
+/* Layout */
+
+div#container-wrap {
+	background:url(../imagesdir/container_wrap.png) no-repeat left top;
+	min-height:100%;
+	position:relative;
+	top:-4px;
+}
+
+div#container {
+	overflow:hidden;
+	position:relative;
+}
+
+div#content-wrap {
+	width:985px;
+	margin-top:20px;
+	float:left;
+}
+
+div#sub-content {
+	width:465px;
+	float:left;
+	padding:0 0 0 15px;
+}
+
+div#sub-content.sub {
+	width:222px;
+}
+
+div#bottom-wrap {
+	background:url(../imagesdir/bottom_wrap.png) no-repeat left bottom;
+	position:relative;
+	padding-bottom:22px;
+	bottom:-12px;
+}
+
+div#supplemental-content {
+	background:#2a2a2a url(../imagesdir/footer_bottom.png) no-repeat bottom left;
+	width:964px;
+	margin:0 0 0 25px;
+	padding-bottom:40px;
+	position:relative;
+}
+
+div#supp-section {
+	background:url(../imagesdir/footer_top.png) repeat-x top;
+	padding:10px 0 10px 20px;
+	margin-bottom:40px;
+	float:left;
+	width:944px;
+}
+
+
+div#site-info {
+	clear:both;
+	line-height:2.4;
+	text-align:center;
+}
+
+
+/* _____________________________________________________________________________________________
+
+   Masthead, Branding, & Main Navigation
+   __________________________________________________________________________________________ */
+
+div#masthead {
+	width:950px;
+	height:120px;
+	padding:20px 0 0 30px;
+}
+
+
+
+/* logo */
+
+div#branding {
+	width:300px;
+	height:94px;
+	float:left;
+	position:relative;
+	top:25px;
+	left:30px;
+	z-index:1;
+}
+
+/* main navigation */
+
+div#main-nav {
+	width:650px;
+	position:relative;
+	margin:10px 0;
+	float:right;
+}
+
+
+div#top-ad {
+	width:468px;
+	height:60px;
+	float:right;
+	margin:20px 0 0 0;
+}
+
+/* _____________________________________________________________________________________________
+
+   Main Content
+   __________________________________________________________________________________________ */
+
+div#main-content {
+	width:470px;
+	padding:0 0 20px 30px;
+	float:left;
+	overflow:hidden;
+}
+
+div#main-content.sub {
+	width:700px;
+}
+
+
+div.column.right {
+	margin:0;
+}
+
+div.main-column {
+	padding:10px 5px;
+}
+
+div.rss-float{
+	float:right;
+}
+
+div#main-content .rss-feed{
+	width:18px;
+	height:18px;
+}
+
+
+div.main-column h2.article {
+	font-size:140%;
+	line-height:2.4;
+	border-top:1px solid #666;
+	border-bottom:1px solid #ddd;
+}
+
+div.main-column div.article-meta {
+	width:100%;
+	margin-top:-10px;
+	float:right;
+}
+
+div.main-column div.article-meta span.date {
+	font-size:80%;
+	border-bottom:1px solid #666;
+	margin-left:10px;
+	line-height:1.2;
+	display:block;
+	float:right;
+}
+
+div.main-column div.article-meta span.comments {
+	font-size:80%;
+	text-transform:uppercase;
+	border-bottom:1px solid #666;
+	line-height:1.2;
+	display:block;
+	float:right;
+}
+
+div.main-column div.article-meta span.comments a {
+	text-decoration:none;
+}
+
+div.main-column h3 {
+	color:#717c4b;
+	font-size:130%;
+	line-height:1.6;
+}
+
+div.main-column h4 {
+	font-size:120%;
+	line-height:1.4;
+}
+
+
+
+div.main-column p{
+	line-height:1.6;
+}
+
+div.main-column em {
+	color:#000;
+	font-weight:bold;
+}
+
+div.main-column ul {
+	margin-left:20px;
+}
+
+
+div.main-column li {
+	line-height:1.8;
+}
+
+div.main-column ol {
+	margin-left:20px;
+}
+
+div.main-column ol li {
+	list-style:decimal inside;
+}
+
+div.main-column blockquote {
+	background:#e5e9d2 url(../imagesdir/bq_top.png) no-repeat top right;
+	width:90%;
+	margin: 0 auto 20px auto;
+	
+}
+	
+div.main-column blockquote p {
+	background:url(../imagesdir/bq_bottom.png) no-repeat bottom left;
+	margin:20px auto;
+	padding:20px;
+	display:block;
+}
+
+div.main-column a:hover {
+	text-decoration:underline;
+}
+
+div#comment-list {
+	border-top:1px solid #ddd;
+	border-bottom: 1px solid #888;
+	float:left;
+	width:690px;
+}
+
+div.comment {
+	width:100%;
+	clear:both;
+	margin-bottom:10px;
+	border-bottom:1px solid #ddd;
+	float:left;
+}
+
+div.comment-info {
+	width:30%;
+	float:left;
+}
+
+div.comment-info span.author {
+	border-top:1px solid #888;
+}
+
+div.comment-info span {
+	display:block;
+	line-height:2;
+	border-bottom:1px solid #ddd;
+}
+
+div.comment-user {
+	width:68%;
+	float:right;
+}
+
+/* _____________________________________________________________________________________________
+
+   Gallery Items
+   __________________________________________________________________________________________ */
+
+.box-gallery {
+	float: left;
+	width: 220px;
+	margin: 0;
+	margin-bottom: 8px;
+	font-size: 12px;
+	position: relative;
+	z-index: 1;
+}
+
+
+.box-gallery img {
+	float: left;
+	border: 1px solid #ccc;
+	margin-bottom: 4px;
+	background: #fff;
+}
+
+
+
+ul.gallery-item-rating {
+	width:90px;
+	border-bottom:1px solid #ddd;
+	float:right;
+}
+
+ul.gallery-item-rating li {
+	padding:1px;
+	display:inline;
+}
+
+
+
+/* Menu Items */
+
+div.sub-section div.gallery-item {
+	width:465px;
+	margin-bottom:10px;
+}
+
+div.sub-section div.gallery-item img {
+	width:465px;
+}
+
+div.sub-section div.gallery-item a img {
+	border-top:1px solid #ddd;
+	border-bottom:1px solid #ddd;
+	display:block;
+	margin-bottom:10px;
+}
+
+div.sub-section p.gallery-item-meta-date {
+	font-size:80%;
+	margin-top:2px;
+	margin-left:5px;
+	border-top:1px solid #ddd;
+	padding-bottom:1px;
+	float:right;
+}
+
+div.sub-section a.gallery-website-link {
+	width:321px;
+	float:left;
+	padding:2px 4px 0px 4px;
+	border-bottom:1px solid #ddd;
+}
+
+
+/* _____________________________________________________________________________________________
+
+   Comments
+   __________________________________________________________________________________________ */
+
+.box-news{
+	border: 1px solid gray;
+	width: 98%;
+	margin-bottom: 15px;
+}
+
+.box-news h2{
+	padding: 1px 8px 8px 8px;
+	font-size: 13px;
+	font-weight: bold;
+}
+
+.box-news P {
+	padding: 0 8px 8px 8px;
+	margin: 0;
+	text-align: left;
+	line-height: 17px;
+}
+
+
+.box-news .base, .box-news .basecomment {
+	padding: 5px;
+	margin: 0;
+	margin-top: 10px;
+	font: normal 12px Arial;
+	background: #e9f2f9;
+}
+
+.box-news .basecomment{	
+	background: #efc153;
+}
+
+.box-news .basecomment .count{
+	color: black;
+	margin-right: 3px;
+}
+
+.box-news .basecomment a{
+	text-decoration: underline;
+	color: gray;
+}
+
+/* ######### Pagination Links ######### */
+
+
+.pagination{
+	margin: 20px 0;
+	text-align: right; /*Set to "right" to right align pagination interface*/
+	clear: both;
+	font: bold 13px Verdana;
+}
+
+.pagination a, .pagination a:visited{
+	padding: 1px 5px;
+	padding-bottom: 2px;
+	border: 1px solid #9aafe5;
+	text-decoration: none !important; 
+	color: #2e6ab1;
+	background-color: #F0F0F0;
+}
+
+.pagination a:hover, .pagination a:active{
+	border-color: #2b66a5;
+	color: #000;
+	background-color: #FFFF80;
+}
+
+.codeblock{
+	border: 1px solid gray;
+	background-color: #ededed;
+	padding: 10px !important;
+	margin-bottom: 1em !important;
+}
+
+
+/* ######### Form CSS ######### */
+
+.cssform {
+	margin: 0;
+	padding: 0;
+}
+
+.cssform input, .cssform textarea{
+	padding: 3px;
+	border: 1px solid #ccc;
+	background: white;
+	font-size: 12px;
+}
+
+.cssform textarea{
+	width: 98%;
+	height: 150px;
+}
+
+
+
+/* _____________________________________________________________________________________________
+
+   Sub Content
+   __________________________________________________________________________________________ */
+
+
+div.sub-column {
+	float:left;
+	width:232px;
+}
+
+div.sub-column.right {
+	float:right;
+	width:222px;
+}
+
+div.sub-column.right a {
+	color:#2a2a2a;
+}
+
+div.centerblock h3{
+margin-bottom: 2px;
+}
+
+div.centerblock p{
+margin:0 0 20px 0;
+padding-bottom:5px;
+border-bottom:1px dashed black;
+}
+
+/* User Tools */
+
+div.user-tools {
+	background:url(../imagesdir/user_tools_alt.png) no-repeat;
+	width:465px;
+	height:120px;
+	float:left;
+}
+
+div.user-tools.sub {
+	background:url(../imagesdir/user_tools_sub.png) no-repeat;
+	width:220px;
+	height:160px;
+}
+
+p.gallerypalette{
+	width: 125px;
+	height: 50px;
+	position: relative;
+	margin-top: 110px;
+	margin-left: 30px;
+	background: transparent url(../imagesdir/palette.gif) top left no-repeat
+}
+
+p.gallerypalette a{
+	display: block;
+	float: left;
+	width: 16px;
+	height: 16px;
+	margin: 7px 3px 0 6px;
+}
+
+/* Search Form */
+
+div.search-form {
+	margin:5px 0 0 0;
+	width:100%;
+	float:left;
+	text-align:left;
+	
+}
+
+div.search-form form {
+	margin-right:5px;
+}
+
+div.search-form form fieldset{
+	border-width:0;
+}
+
+div.search-form form div {
+	width:315px;
+	margin-top:5px;
+	float:right;
+}
+
+
+div.search-form input.txt {
+	width:250px;
+	height:18px;
+	padding:0;
+	margin-top:2px;
+	display:block;
+	float:left;
+}
+
+div.search-form input.btn {
+	margin:0 10px 0 8px;
+	height:28px;
+	width:42px;
+	display:block;
+}
+
+div.search-form label {
+	display:none;
+}
+
+div.search-form a#advanced {
+	background:#2a2a2a;
+	color:#fafaf3;
+	padding:3px 4px 3px 4px;
+	clear:both;
+	display:block;
+	float:right;
+	font-size:80%;
+	width:120px;
+	text-transform:uppercase;
+	text-align:center;
+	position:relative;
+	right:9px;
+	top:10px;
+}
+
+div.user-tools.sub div.search-form form div {
+	width:200px;
+	margin-top:-2px;
+}
+
+div.user-tools.sub div.search-form input.txt {
+	width:140px;
+}
+
+div.user-tools.sub a#advanced {
+	right:1px;
+}
+
+
+
+/* Colour Search */
+
+ul.colour-search {
+	width:120px; /* adjust width according to number of colour items */
+	padding-right:10px;
+	margin-top:10px;
+	float:right;	
+}
+
+ul.colour-search li {
+	display:inline;
+	line-height:1.4;
+}
+
+ul.colour-search a {
+	margin-right:2px;
+}
+
+div.sub ul.colour-search {
+	margin-top:50px;
+}
+
+/* Colour Palette */
+
+
+.colorpalette{ float: left;  padding: 0; margin: 0; width: 310px; margin-bottom:15px; clear:left}
+.colorpalette div{ float: left; padding: 0; margin: 0; list-style: none; width: 43px; height: 35px; margin-top:1px; margin-left: 1px; cursor:pointer; cursor:hand}
+.colorpalette div span { display: none;}
+.paletteinfo{font-size:13px; padding:0; margin:0; margin-left:10px;}
+.paletteinfo li{margin-bottom:8px}
+.paletteinfo span{ border-bottom:3px solid white;}
+
+/* News Page */
+
+.newsarea{
+	padding-bottom: 5px;
+	margin-bottom: 18px;
+	border-bottom: 1px dashed gray;
+}
+
+div.newsarea h3{
+	margin:0;
+	padding:0;
+	line-height:1em;
+}
+	
+.newsarea b{
+	font-size: 24px;
+}
+	
+.newsarea p{
+	margin-top: 0;
+	margin-bottom: 5px;
+}
+	
+div.newsarea .footer{
+	color: gray;
+	margin:5px 0;
+}
+	
+#submitnews{
+	width: 95%;
+	border: 1px solid gray;
+	margin: 1em 0;
+	padding: 5px;
+}
+	
+.content-sub ul{
+	margin-left: 0;
+	padding-left: 18px;
+}
+	
+
+	
+.newscredit span, .newscreditplus span{
+	font-size: 12px; color: gray; margin-left: 8px; font-style: italic;
+}
+	
+.newscredit, .newscreditplus{
+	padding: 8px;
+	display: block;
+	border: 1px dashed black;
+	margin-bottom: 1.2em;
+}
+	
+.newscreditplus{
+	background-color: lightyellow;
+}
+
+/* News on Site FrontPage */
+
+div.news-summary-item{
+margin-bottom: 20px;
+}
+
+div.news-summary-date {
+	background:#e5e9d2;
+	width:73px;
+	line-height:1.6em;
+	text-align:center;
+	margin-left:2px;
+	float:right;
+}
+
+div.news-summary {
+	padding:5px 0;
+	clear:both;
+}
+
+div.news-summary p {
+	line-height:1.4;
+	float:left;
+	font-size:90%;
+	margin:0;
+	padding:5px;
+}
+
+
+div.news-summary h3 {
+	background: #e9f2f9;
+	font-size:95%;
+	padding:1px 5px;
+	margin:0;
+	width:94%;
+	float:left;
+}
+
+div.news-summary h3:hover {
+}
+
+div.news-summary h3 a {
+}
+
+div.news-summary h3 a:hover {
+	color:#2a2a2a;
+}
+
+div.news-summary h3 a.comments {
+	padding-left:.5em;
+	color:#2a2a2a;
+	font-size:80%;
+}
+
+p.news-summary-meta {
+	color:#6e7849;
+	font-style:italic;
+}
+
+/* ######### Menu Design Container ######### */
+
+.menuheader{
+border-bottom: 1px solid gray;
+font-size: 130%;
+margin-top: 1em;
+}
+
+.menudate{
+text-align:right; font:normal 11px Verdana; margin:3px 0 1.5em 0;
+}
+
+.menubox{
+float: left;
+font-size: 13px;
+width: 302px;
+margin-bottom: 25px;
+}
+
+.menubox img{
+border: 1px dashed gray;
+}
+
+.menubox img:hover{
+border-color: red;
+}
+
+
+
+/* sponsor ads */
+
+div.group1{
+margin-top: 15px;
+text-align: center;
+display: block;
+}
+
+div.group1 img{
+
+}
+
+
+/* front page sign-in */
+
+div.sign-in {
+	background:#747f4d url(../imagesdir/pattern2.png);
+	border:1px solid #65703f;
+	width:200px;
+	padding:10px;
+	margin-bottom:10px;
+	float:left;
+}
+
+div.sign-in p {
+	background:#5d683b url(../imagesdir/pattern3.png);
+	color:#fff;
+	padding:1em;
+	margin-bottom:1em;
+	font-size:90%;
+	line-height:1.6;
+}
+
+div.sign-in a{
+	color:lightyellow;	
+}
+
+div.sign-in a.login{
+	border:1px solid gray;
+	background:#D3D3D3;
+	font:normal 12px Arial;
+	padding: 4px;
+	margin-right: 10px;
+	color:black;
+}
+
+/* Partner Links */
+
+div.partners {
+	float:left;
+	width:100%;
+}
+
+div.partners ul{
+	list-style-type:none;
+	padding:0;
+	margin:0;
+}
+
+div.partners li {
+	border-bottom:1px solid #cacdba;
+}
+
+div.partners a {
+	display:block;
+	padding:3px 0;
+}
+
+div.partners a:hover {
+	background:url(../imagesdir/red_arrow.png) no-repeat right;
+}
+
+/* _____________________________________________________________________________________________
+
+   Supplemental Content
+   __________________________________________________________________________________________ */
+
+div#supp-section{
+	color: lightblue;
+}
+
+div#supp-section h2 {
+	margin-bottom:10px;
+}
+
+div#supp-section h2 img {
+	float:left;
+}
+
+div#supp-section ul {
+	margin-top:12px;
+}
+
+div#supp-section li {
+	border-bottom:1px solid #3f403e;
+	width:100%;
+	margin-bottom:14px;
+}
+
+div#supp-section a {
+	color:#fafaf3;
+	margin:0;
+}
+
+div#supp-section a:hover {
+	color:#bf3a00;
+}
+
+div#supp-section a span {
+	color:#adba7f;
+	margin-left:6px;
+}
+
+div#supp-section span.rss-feed {
+	margin-top:10px;
+	float:right;
+}
+
+div.forum-supp-section {
+	width:440px;
+	margin-right:30px;
+	float:left;
+}
+
+div.forum-supp-section table {
+	width:100%;
+}
+
+div.forum-supp-section th {
+	color:#d3b58b;
+	text-transform:uppercase;
+	text-align:left;
+	font-weight:normal;
+}
+
+div.forum-supp-section th,
+div.forum-supp-section td {
+	vertical-align:middle;
+}
+
+div.forum-supp-section td {
+}
+
+
+div.forum-supp-section tbody tr {
+	border-bottom:1px solid #3f403e;
+}
+
+div.forum-supp-section tbody tr td{
+padding: 7px 0;
+}
+
+
+div.news-supp-section {
+	width:222px;
+	margin-right:20px;
+	float:left;
+}
+
+div.comments-supp-section {
+	width:222px;
+	float:left;
+}
+
+/* Site Info */
+
+div#site-info p {
+	display:inline;
+	color:#fafaf3;
+	font-size:95%;
+	position:absolute;
+	bottom:-5px;
+	left:0;
+	width:900px;
+}
+
+div#site-info p a {
+	color:#d0aa71;
+}
+
+div#site-info p a:hover {
+	color:#2a2a2a;
+}
+
+/* ######### Thumbs Up ######### */
+
+
+.finger{
+	cursor: hand;
+	cursor: pointer;
+}
+
+.thumbsdiv{
+	
+}
+
+.thumbsdiv img{
+	filter:progid:DXImageTransform.Microsoft.alpha(opacity=100);
+	-moz-opacity: 1;
+}
+
+
+/* ######### Formatting Buttons ######### */
+
+.buttonMode {
+	font-family: Verdana, Geneva, Tahoma, Trebuchet MS, Arial, Sans-serif;
+	font-size: 10px;
+	color: #73769D;
+	background-color: transparent;
+	white-space: nowrap;
+}
+
+.htmlButtonOuter, .htmlButtonOuterL {
+	background-color: #f6f6f6;
+	padding: 0;
+	border-top: #333 1px solid;
+	border-right: #333 1px solid;
+	border-bottom: #333 1px solid;
+}
+
+.htmlButtonOuterL {
+	
+}
+
+.htmlButtonInner {
+	background-color: transparent;
+	text-align: center;
+	padding: 0 3px 0 3px;
+	border-left: #fff 1px solid;
+	border-top: #fff 1px solid;
+	border-right: #ccc 1px solid;
+	border-bottom: #ccc 1px solid;
+}
+.htmlButtonOff {
+	font-family: Verdana, Arial, Trebuchet MS, Tahoma, Sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	padding: 1px 2px 2px 2px;
+	white-space: nowrap;
+}
+.htmlButtonOff a:link {
+	color: #000;
+	text-decoration: none;
+	white-space: nowrap;
+}
+.htmlButtonOff a:visited {
+	
+}
+.htmlButtonOff a:active {
+	text-decoration: none;
+	color: #999;
+}
+.htmlButtonOff a:hover {
+	background-color: #fff;
+	text-decoration: none;
+	color: #999;
+}
+.htmlButtonOn {
+	font-family: Verdana, Arial, Trebuchet MS, Tahoma, Verdana, Sans-serif;
+	font-size: 11px;
+	font-weight: bold;
+	background: #f6f6f6;
+	padding: 1px 2px 2px 2px;
+	white-space: nowrap;
+}
+.htmlButtonOn a:link {
+	color: #990000;
+	text-decoration: none;
+	white-space: nowrap;
+}
+.htmlButtonOn a:visited {
+	
+}
+.htmlButtonOn a:active {
+	text-decoration: none;
+	color: #999;
+}
+.htmlButtonOn a:hover {
+	background-color: #fff;
+	color: #999;
+	text-decoration: none;
+}
+
+blockquote{
+	background: #EBEBEB;
+	padding: 5px;
+	width: 90%;
+	margin-left: 20px;
+	margin-bottom: 10px;
+	font-size: 90%;
+	border:1px solid silver;
+}
+
+blockquote p{
+	padding:0;
+	margin:0;
 }
